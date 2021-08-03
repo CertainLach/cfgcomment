@@ -1,0 +1,12 @@
+[package]
+name = "cfgcomment"
+description = "Universal comment conditional compilation preprocessor"
+license = "MIT"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+env_logger = "0.9.0"
+log = "0.4.14"
+structopt = { version = "0.3.22", features = ["color", "suggestions", "wrap_help"] }
+cfgcomment-core = { version = "0.1.0", path = "../../crates/core" }
