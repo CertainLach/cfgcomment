@@ -86,6 +86,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "cfgcomment-buildscript"
+version = "0.1.0"
+dependencies = [
+ "cfgcomment-core",
+]
+
+[[package]]
 name = "cfgcomment-core"
 version = "0.2.0"
 dependencies = [

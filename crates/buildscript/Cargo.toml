@@ -1,0 +1,11 @@
+[package]
+name = "cfgcomment-buildscript"
+authors = ["Yaroslav Bolyukin <iam@lach.pw>"]
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+cfgcomment-core = { version = "0.2.0", path = "../core" }
+
+[features]
+taa-fff = []
