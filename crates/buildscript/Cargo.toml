@@ -1,5 +1,7 @@
 [package]
 name = "cfgcomment-buildscript"
+description = "build.rs support for cfgcomment"
+license = "MIT"
 authors = ["Yaroslav Bolyukin <iam@lach.pw>"]
 version = "0.1.0"
 edition = "2018"
