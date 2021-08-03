@@ -1,4 +1,12 @@
-use std::{cell::RefCell, collections::{HashMap, HashSet}, fs::File, io::{BufRead, BufReader, BufWriter, Write}, path::PathBuf, rc::Rc, sync::Arc};
+use std::{
+    cell::RefCell,
+    collections::{HashMap, HashSet},
+    fs::File,
+    io::{BufRead, BufReader, BufWriter, Write},
+    path::PathBuf,
+    rc::Rc,
+    sync::Arc,
+};
 
 pub struct Data {
     pub features: HashSet<String>,
@@ -105,7 +113,42 @@ pub struct LangDesc {
     pub comment: String,
 }
 
-fn process(
+impl LangDesc {
+    pub fn default_list() -> HashMap<String, Self> {
+        let c_like = LangDesc {
+            cfg_prefix: "//[".to_owned(),
+            cfg_prefix_comment_len: 2,
+            cfg_suffix: "]".to_owned(),
+            comment: "//# ".to_owned(),
+        };
+        std::array::IntoIter::new([
+            (
+                "rs".to_owned(),
+                c_like.clone(),
+            ),
+            (
+                "js".to_owned(),
+                c_like.clone(),
+            ),
+            (
+                "ts".to_owned(),
+                c_like.clone(),
+            ),
+            (
+                "toml".to_owned(),
+                LangDesc {
+                    cfg_prefix: "#[".to_owned(),
+                    cfg_prefix_comment_len: 1,
+                    cfg_suffix: "]".to_owned(),
+                    comment: "#- ".to_owned(),
+                },
+            ),
+        ])
+        .collect()
+    }
+}
+
+pub fn process(
     read: impl Iterator<Item = String>,
     config: Arc<Data>,
     desc: Rc<LangDesc>,
@@ -183,11 +226,7 @@ pub fn walkdir_parallel(paths: Vec<PathBuf>, config: Data, lang_config: HashMap<
                 tempfile::NamedTempFile::new_in(path.path().parent().unwrap()).unwrap(),
             );
 
-            for line in process(
-                file.lines().map(|l| l.unwrap()),
-                config.clone(),
-                desc,
-            ) {
+            for line in process(file.lines().map(|l| l.unwrap()), config.clone(), desc) {
                 writeln!(out, "{}", line).unwrap();
             }
 
